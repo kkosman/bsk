@@ -53,6 +53,12 @@ class Training
      */
     public iterable $exercises;
 
+    /** The Person this Trainging is matched to. */
+    /**
+     * @ORM\ManyToOne(targetEntity="Person", inversedBy="trainings")
+     */
+    public ?Person $person = null;
+
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
