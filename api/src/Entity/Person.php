@@ -30,6 +30,13 @@ class Person
     /** The fullname of this Person (or null if doesn't have one). */
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Regex(
+     *     pattern="/\s/",
+     *     message="Your name must contain at least one space.")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your name cannot contain a number.")
      */
     public ?string $fullname = null;
 
@@ -70,16 +77,19 @@ class Person
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
+        // 1. birthday - not in future, not today
+        // 2. birthday - min 18yo
+
+
+
+        // 3. fake and test names
+
         // somehow you have an array of "fake names"
         $fakeNames = ["test"];
 
         // check if the name is actually a fake name
         if (in_array($this->fullname, $fakeNames)) {
-            $context->buildViolation('This name sounds totally fake!')
-                ->atPath('fullname')
-                ->addViolation();
-
-            throw new \Exception('Something went wrong!');
+            throw new \Exception('This name sounds fake!');
         }
     }
 }

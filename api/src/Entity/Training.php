@@ -6,6 +6,9 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException as Exception;
 
 /** A Training. */
 /**
@@ -25,6 +28,12 @@ class Training
     /** The description of this Training (or null if doesn't have one). */
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 50,
+     *      minMessage = "Training description name must be at least {{ limit }} characters long.",
+     *      maxMessage = "Training description cannot be longer than {{ limit }} characters."
+     * )
      */
     public ?string $description = null;
 
@@ -37,6 +46,7 @@ class Training
     /** The duration of this Training (in minutes). */
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\GreaterThanOrEqual(1)
      */
     public int $duration = 0;
 
@@ -67,5 +77,14 @@ class Training
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        // 1. type enum validation
     }
 }

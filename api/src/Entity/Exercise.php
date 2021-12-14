@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /** A Exercise of a training. */
 /**
@@ -24,6 +25,12 @@ class Exercise
     /** The name of the Exercise. */
     /**
      * @ORM\Column
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 10,
+     *      minMessage = "Exercise name must be at least {{ limit }} characters long.",
+     *      maxMessage = "Exercise name cannot be longer than {{ limit }} characters."
+     * )
      */
     public string $name = '';
 
