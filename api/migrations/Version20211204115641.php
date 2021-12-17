@@ -20,7 +20,6 @@ final class Version20211204115641 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE user_id_seq CASCADE');
         $this->addSql('CREATE SEQUENCE exercise_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE person_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE training_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -44,7 +43,6 @@ final class Version20211204115641 extends AbstractMigration
         $this->addSql('DROP SEQUENCE exercise_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE person_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE training_id_seq CASCADE');
-        $this->addSql('CREATE SEQUENCE user_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('DROP TABLE exercise');
         $this->addSql('DROP TABLE person');
         $this->addSql('DROP TABLE training');
