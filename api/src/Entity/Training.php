@@ -86,5 +86,23 @@ class Training
     public function validate(ExecutionContextInterface $context, $payload)
     {
         // 1. type enum validation
+        $trainingTypes = ["kondycyjny", "siłowy", "obwodowy", "funkcjonalny", "relaksacyjny"];
+        if (!in_array($this->type, $trainingTypes)) {
+            throw new \Exception('This training type is not allowed!');
+        }
+        // 2. training date - not in future
+        $dot = new \DateTime(null, $this->date->getTimezone());
+        $dot->setTimestamp($this->date->getTimestamp());
+        $now = new \DateTime(null, $this->date->getTimezone());
+
+        if ($dot > $now) {
+            throw new \Exception('Training date cannot be a future date!');
+        }
+        // 3. training date - not too old
+        $difference = $now->diff($dot);
+        $age = $difference->y;
+        if ($age > 0) {
+            throw new \Exception('Training date is too far in history!');
+        }
     }
 }
