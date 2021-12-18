@@ -62,9 +62,16 @@ class Person
      */
     public iterable $trainings;
 
+    /** @var Weight[] Available weight records for this Person. */
+    /**
+     * @ORM\OneToMany(targetEntity="Weight", mappedBy="person", cascade={"persist", "remove"})
+     */
+    public iterable $weights;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
+        $this->weights = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,6 +92,7 @@ class Person
         if ($dob >= $now) {
             throw new \Exception('Birth date cannot be the current day nor a future date!');
         }
+        
         // 2. birthday - min 18yo
         $difference = $now->diff($dob);
         $age = $difference->y;
@@ -97,6 +105,7 @@ class Person
         if (in_array($this->fullname, $fakeNames)) {
             throw new \Exception('This name sounds fake!');
         }
+
         // 4. birthday - not over 120 years old
         $difference = $now->diff($dob);
         $age = $difference->y;

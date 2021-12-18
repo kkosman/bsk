@@ -90,6 +90,7 @@ class Training
         if (!in_array($this->type, $trainingTypes)) {
             throw new \Exception('This training type is not allowed!');
         }
+
         // 2. training date - not in future
         $dot = new \DateTime(null, $this->date->getTimezone());
         $dot->setTimestamp($this->date->getTimestamp());
@@ -98,6 +99,7 @@ class Training
         if ($dot > $now) {
             throw new \Exception('Training date cannot be a future date!');
         }
+        
         // 3. training date - not too old
         $difference = $now->diff($dot);
         $age = $difference->y;

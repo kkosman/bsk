@@ -6,6 +6,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException as Exception;
 
 /** A Exercise of a training. */
 /**
@@ -34,6 +36,13 @@ class Exercise
      */
     public string $name = '';
 
+    /** The calories burned with this exercise per minute (in kcal). */
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\GreaterThanOrEqual(1)
+     */
+    public int $calories = 0;
+
     /** The training this Exercise is matched. */
     /**
      * @ORM\ManyToOne(targetEntity="Training", inversedBy="exercises")
@@ -44,4 +53,17 @@ class Exercise
     {
         return $this->id;
     }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        // 1. calories cannot be greater nor equal to 1000 per minute
+
+        if ($this->calories >= 1000) {
+            throw new \Exception('No exercies is able to burn more than 1000 calories per minute!');
+        }
+    }
+
 }
