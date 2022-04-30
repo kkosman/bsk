@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException as Exception;
+use App\Validator as AppAssert;
 
 /** A Weight of a training. */
 /**
  * @ORM\Entity
+ * @AppAssert\SelfRepair
  */
 #[ApiResource]
 class Weight
@@ -27,7 +29,7 @@ class Weight
     /** The weight value of this record (in kg). */
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\GreaterThanOrEqual(50)
+     * @Assert\GreaterThanOrEqual(1)
      */
     public int $weight = 0;
 
