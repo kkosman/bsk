@@ -55,15 +55,11 @@ class SelfRepairValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, SelfRepair::class);
         }
 
+        //TODO: test this for empty values
         // custom constraints should ignore null and empty values to allow
         // other constraints (NotBlank, NotNull, etc.) to take care of that
         // if (null === $value || '' === $value) {
         //     return;
-        // }
-
-        // // access your configuration options like this:
-        // if ('strict' === $constraint->mode) {
-        //     // ...
         // }
 
         /* 
@@ -90,12 +86,8 @@ class SelfRepairValidator extends ConstraintValidator
         foreach ($results as $w)
             array_push($weights, $w->weight);
         
-        $this->logger->error(implode(",",$weights));
-
         $try_to_correct = !isWeightViable($weight,$weights);
         
-        $this->logger->error(implode(",",[$try_to_correct?"t":"n"]));
-
         /* 
          * Step 2: self-repair 
          * -> try to fix it by moving comma
@@ -118,7 +110,8 @@ class SelfRepairValidator extends ConstraintValidator
         if(isWeightViable($weight*0.45359237,$weights))
             $possibilites_message .= " Maybe you measured in pounds? Did you mean: ". $weight*0.45359237 . "?";
 
-        // case when no possible solutioin there is eg. 89 kg for people/2
+        //TODO: case when no possible solutioin there is eg. 89 kg for people/2
+        // maybe inform about 3 sigma limiting range?
 
         if ($try_to_correct) {
             $this->context->buildViolation($constraint->message)
