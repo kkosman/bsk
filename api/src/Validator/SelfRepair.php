@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraint;
 class SelfRepair extends Constraint
 {
     public $message = 'Weight value of {{ string }} seems invalid.{{ possibilites }}';
+    public $messagePersonEmpty = 'Please provide a person object.';
     
     public function getTargets()
     {

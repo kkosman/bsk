@@ -44,7 +44,7 @@ class SelfRepairValidator extends ConstraintValidator
                 $average = array_sum($weights)/count($weights);
                 $sigma = standardDeviation($weights);
 
-                if($weight < $average-($sigma*3) || $weight > $average+($sigma*3))
+                if($weight < floor($average-($sigma*3)) || $weight > floor($average+($sigma*3)))
                     return false;   
             }
 
@@ -54,13 +54,6 @@ class SelfRepairValidator extends ConstraintValidator
         if (!$constraint instanceof SelfRepair) {
             throw new UnexpectedTypeException($constraint, SelfRepair::class);
         }
-
-        //TODO: test this for empty values
-        // custom constraints should ignore null and empty values to allow
-        // other constraints (NotBlank, NotNull, etc.) to take care of that
-        // if (null === $value || '' === $value) {
-        //     return;
-        // }
 
         /* 
          * Slef repair process
@@ -72,8 +65,16 @@ class SelfRepairValidator extends ConstraintValidator
         $possibilites_message = "";
 
         // Fetch all objects to have a reference. 
+        // Check if object person exists in request, it is not validated before.
+        if(empty($object->person))
+        {
+            $this->context->buildViolation($constraint->messagePersonEmpty)
+                ->atPath('person')
+                ->addViolation();
 
-        //TODO: if object person exists in request
+            return;
+        }
+
         $query = $this->em->createQuery(
             'SELECT w
             FROM App\Entity\Weight w
@@ -110,10 +111,15 @@ class SelfRepairValidator extends ConstraintValidator
         if(isWeightViable($weight*0.45359237,$weights))
             $possibilites_message .= " Maybe you measured in pounds? Did you mean: ". $weight*0.45359237 . "?";
 
-        //TODO: case when no possible solutioin there is eg. 89 kg for people/2
-        // maybe inform about 3 sigma limiting range?
-
         if ($try_to_correct) {
+            if(empty($possibilites_message))
+            {
+                $average = array_sum($weights)/count($weights);
+                $sigma = standardDeviation($weights);
+                $min = floor($average-($sigma*3));
+                $max = floor($average+($sigma*3));
+                $possibilites_message = " Expected value is between $min and $max kilograms.";
+            }
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $object->weight)
                 ->setParameter('{{ possibilites }}', $possibilites_message)
