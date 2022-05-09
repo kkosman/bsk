@@ -1,0 +1,4 @@
+App\Entity\Exercise:
+    exercise_{1..10}:
+        name: <word()>
+        calories: <numberBetween(10,100)>

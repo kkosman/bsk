@@ -1,0 +1,5 @@
+App\Entity\Weight:
+    weight_{1..100}:
+        weight: <numberBetween(50,60)>
+        person: '@person_*'
+        date: <(new \DateTimeImmutable())>

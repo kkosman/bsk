@@ -1,0 +1,5 @@
+App\Entity\Person:
+    person_{1..10}:
+        email: <email()>
+        fullname: <name()>
+        birthday: <(new \DateTimeImmutable('1980-05-30 19:28:21'))>
