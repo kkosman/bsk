@@ -1,5 +1,21 @@
 App\Entity\Weight:
-    weight_{1..100}:
+    weight_{1..96}:
         weight: <numberBetween(50,60)>
         person: '@person_*'
+        date: <(new \DateTimeImmutable())>
+    test_weight:
+        weight: <numberBetween(50,60)>
+        person: '@test_person'
+        date: <(new \DateTimeImmutable())>
+    test_weight2:
+        weight: <numberBetween(50,60)>
+        person: '@test_person2'
+        date: <(new \DateTimeImmutable())>
+    test_weight3:
+        weight: <numberBetween(50,60)>
+        person: '@test_person2'
+        date: <(new \DateTimeImmutable())>
+    test_weight4:
+        weight: <numberBetween(50,60)>
+        person: '@test_person2'
         date: <(new \DateTimeImmutable())>

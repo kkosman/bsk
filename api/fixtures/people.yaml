@@ -1,5 +1,13 @@
 App\Entity\Person:
-    person_{1..10}:
+    test_person:
+        email: 'test@test.pl'
+        fullname: 'Krzysztof Kosman'
+        birthday: <(new \DateTimeImmutable('1988-03-26 00:00:00'))>
+    test_person2:
+        email: 'test2@test.pl'
+        fullname: 'Jakub Probny'
+        birthday: <(new \DateTimeImmutable('1988-03-26 00:00:00'))>
+    person_{1..98}:
         email: <email()>
         fullname: <name()>
         birthday: <(new \DateTimeImmutable('1980-05-30 19:28:21'))>

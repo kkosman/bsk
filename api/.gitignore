@@ -21,3 +21,7 @@
 ###< symfony/phpunit-bridge ###
 
 start.sh
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
