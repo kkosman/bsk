@@ -39,7 +39,7 @@ class WeightTest extends ApiTestCase
     public function testCreateWeight(): void
     {
         $client = static::createClient();
-        $person_iri = $iri = $this->findIriBy(Person::class, ['fullname' => 'Krzysztof Kosman']);
+        $person_iri = $this->findIriBy(Person::class, ['fullname' => 'Krzysztof Kosman']);
 
         $response = static::createClient()->request('POST', '/weights', ['json' => [
             'weight' => 55,

@@ -1,5 +1,11 @@
 App\Entity\Training:
-    training_{1..100}:
+    test_training:
+        description: 'test training test'
+        type: <randomElement(["kondycyjny", "siłowy", "obwodowy", "funkcjonalny", "relaksacyjny"])>
+        duration: <numberBetween(5,60)>
+        date: <(new \DateTimeImmutable())>
+        person: '@test_person'
+    training_{1..99}:
         description: <text(50)>
         type: <randomElement(["kondycyjny", "siłowy", "obwodowy", "funkcjonalny", "relaksacyjny"])>
         duration: <numberBetween(5,60)>
